@@ -45,7 +45,7 @@ function operaIn(a, b) {
         return calcs.Divide(a, b);
     }
 }
-var origin = casos.txtTest4;
+var origin = casos.txtTest1;
 var operands = origin.match(PLANNER_INTS);
 console.log(operands);
 var operator = origin.match(OP_SIGNALS);

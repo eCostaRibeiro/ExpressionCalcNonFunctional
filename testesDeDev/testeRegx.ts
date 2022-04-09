@@ -44,7 +44,7 @@ function operaIn(a: number, b: number) {
 }
 
 
-const origin = casos.txtTest4
+const origin = casos.txtTest1
 const operands = origin.match(PLANNER_INTS)
 console.log(operands);
 
