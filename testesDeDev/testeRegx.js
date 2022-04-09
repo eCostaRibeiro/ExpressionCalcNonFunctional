@@ -12,7 +12,7 @@ var MsgOp;
 })(MsgOp || (MsgOp = {}));
 //Regex expressions
 var INNER_ELEMENTS = /\([^)(]*\)/gm;
-var PLANNER_INTS = /\d/g;
+var PLANNER_INTS = /\d{1,}/g;
 var OP_SIGNALS = /[\+\-\*\/]/gmd;
 //--- convertions
 function innerElements(arg) {
@@ -27,26 +27,27 @@ function extractOperator(args) {
     var elements = args.match(OP_SIGNALS);
     return elements;
 }
-function calculo(calculo) {
-    var result = 0;
-    var solving = innerElements(calculo.expressao); // [ '(6-3)', '(1+1)' ]
-    console.log(solving.map(plannerInts));
-    console.log(solving.map(extractOperator));
-    for (var i = 0; i < solving.length; i++) {
-        calculo.operador = solving.map(extractOperator)[i];
-        calculo.operandos = solving.map(plannerInts)[i];
-        while (calculo.operandos.length > calculo.operador.length
-            && calculo.operador.length != 0) {
-            for (var n = 0; n < calculo.operador.length; n++) {
-                result = calcs.Sum(calculo.operandos[n], calculo.operandos[n + 1]);
-            }
-            calculo.operador.shift();
-        }
-        console.log(result);
+function operaIn(a, b) {
+    if (operator[0] == MsgOp.SUM) {
+        operator.shift();
+        return calcs.Sum(a, b);
+    }
+    else if (operator[0] == MsgOp.SUB) {
+        operator.shift();
+        return calcs.Subtract(a, b);
+    }
+    else if (operator[0] == MsgOp.MUL) {
+        operator.shift();
+        return calcs.Multiply(a, b);
+    }
+    else if (operator[0]) {
+        operator.shift();
+        return calcs.Divide(a, b);
     }
 }
-var teste3 = {
-    expressao: casos.txtTest3
-};
-calculo(teste3);
-//const teste = casos.txtTest3.replace(casos.txtTest3)
+var origin = casos.txtTest4;
+var operands = origin.match(PLANNER_INTS);
+console.log(operands);
+var operator = origin.match(OP_SIGNALS);
+var values = plannerInts(operands.toString());
+console.log(values.reduce(function (a, b) { return operaIn(a, b); }));

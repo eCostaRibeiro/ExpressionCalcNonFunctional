@@ -5,16 +5,10 @@ import * as casos from "./casos"
 //---
 enum MsgOp { SUM = "+", SUB = "-", MUL = "*", DIV = "/" }
 
-interface Calc {
-    operator?: MsgOp;
-    operands?: number[];
-}
-
 //Regex expressions
 var INNER_ELEMENTS = /\([^)(]*\)/gm
-var PLANNER_INTS = /\d/g
+var PLANNER_INTS = /\d{1,}/g
 var OP_SIGNALS = /[\+\-\*\/]/gmd
-
 
 
 //--- convertions
@@ -33,60 +27,33 @@ function extractOperator(args: string): string[] {
     return elements
 }
 
-
-
-//--- hummmm....
-interface calculo {
-    expressao: string;
-    operador?: string[];
-    operandos?: number[]
-}
-
-
-
-
-
-function calculo(calculo: calculo) {
-    let result: number = 0
-
-    const solving = innerElements(calculo.expressao); // [ '(6-3)', '(1+1)' ]
-
-    console.log(solving.map(plannerInts));
-    console.log(solving.map(extractOperator));
-
-
-
-
-    for (let i = 0; i < solving.length; i++) {
-        calculo.operador = solving.map(extractOperator)[i]
-        calculo.operandos = solving.map(plannerInts)[i]
-        while (calculo.operandos.length > calculo.operador.length
-            && calculo.operador.length != 0) {
-            for (let n = 0; n < calculo.operador.length; n++) {
-                result = calcs.Sum(
-                    calculo.operandos[n],
-                    calculo.operandos[n + 1])
-            }
-            calculo.operador.shift()
-
-        }
-        console.log(result);
-
+function operaIn(a: number, b: number) {
+    if (operator[0] == MsgOp.SUM) {
+        operator.shift()
+        return calcs.Sum(a, b)
+    } else if (operator[0] == MsgOp.SUB) {
+        operator.shift()
+        return calcs.Subtract(a, b)
+    } else if (operator[0] == MsgOp.MUL) {
+        operator.shift()
+        return calcs.Multiply(a, b)
+    } else if (operator[0]) {
+        operator.shift()
+        return calcs.Divide(a, b)
     }
 }
 
-const teste3: calculo = {
-    expressao: casos.txtTest3
-}
 
-calculo(teste3)
+const origin = casos.txtTest4
+const operands = origin.match(PLANNER_INTS)
+console.log(operands);
 
-
-
-
-
-//const teste = casos.txtTest3.replace(casos.txtTest3)
+const operator = origin.match(OP_SIGNALS)
+const values = plannerInts(operands.toString())
 
 
 
 
+console.log(
+    values.reduce((a, b) => operaIn(a, b))
+)

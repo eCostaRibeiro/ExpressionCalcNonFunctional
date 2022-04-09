@@ -7,14 +7,14 @@ function Sum(a, b) {
 }
 exports.Sum = Sum;
 function Subtract(a, b) {
-    return a + b;
+    return a - b;
 }
 exports.Subtract = Subtract;
 function Multiply(a, b) {
-    return a + b;
+    return a * b;
 }
 exports.Multiply = Multiply;
 function Divide(a, b) {
-    return a + b;
+    return a / b;
 }
 exports.Divide = Divide;
