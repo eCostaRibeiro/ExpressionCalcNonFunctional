@@ -7,7 +7,7 @@ enum MsgOp { SUM = "+", SUB = "-", MUL = "*", DIV = "/" }
 
 //Regex expressions
 var INNER_ELEMENTS = /\([^)(]*\)/gm
-var PLANNER_INTS = /\d{1,}/g
+var PLANNER_NUMS = /\d+[.]?\d?/gm
 var OP_SIGNALS = /[\+\-\*\/]/gmd
 
 
@@ -17,8 +17,8 @@ function innerElements(arg: string): string[] {
     return elements
 }
 
-function plannerInts(args: string): number[] {
-    const elements = args.match(PLANNER_INTS).map(Number)
+function extractNums(args: string): number[] {
+    const elements = args.match(PLANNER_NUMS).map(Number)
     return elements
 }
 
@@ -27,7 +27,7 @@ function extractOperator(args: string): string[] {
     return elements
 }
 
-function operaIn(a: number, b: number) {
+function operatingIn(a: number, b: number) {
     if (operator[0] == MsgOp.SUM) {
         operator.shift()
         return calcs.Sum(a, b)
@@ -44,16 +44,15 @@ function operaIn(a: number, b: number) {
 }
 
 
-const origin = casos.txtTest1
-const operands = origin.match(PLANNER_INTS)
-console.log(operands);
+const origin = casos.txtTest4
+const operands = origin.match(PLANNER_NUMS)
 
 const operator = origin.match(OP_SIGNALS)
-const values = plannerInts(operands.toString())
+const values = extractNums(operands.toString())
 
 
 
 
 console.log(
-    values.reduce((a, b) => operaIn(a, b))
+    values.reduce((a, b) => operatingIn(a, b))
 )

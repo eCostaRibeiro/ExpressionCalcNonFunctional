@@ -12,22 +12,22 @@ var MsgOp;
 })(MsgOp || (MsgOp = {}));
 //Regex expressions
 var INNER_ELEMENTS = /\([^)(]*\)/gm;
-var PLANNER_INTS = /\d{1,}/g;
+var PLANNER_NUMS = /\d+[.]?\d?/gm;
 var OP_SIGNALS = /[\+\-\*\/]/gmd;
 //--- convertions
 function innerElements(arg) {
     var elements = arg.match(INNER_ELEMENTS);
     return elements;
 }
-function plannerInts(args) {
-    var elements = args.match(PLANNER_INTS).map(Number);
+function extractNums(args) {
+    var elements = args.match(PLANNER_NUMS).map(Number);
     return elements;
 }
 function extractOperator(args) {
     var elements = args.match(OP_SIGNALS);
     return elements;
 }
-function operaIn(a, b) {
+function operatingIn(a, b) {
     if (operator[0] == MsgOp.SUM) {
         operator.shift();
         return calcs.Sum(a, b);
@@ -45,9 +45,8 @@ function operaIn(a, b) {
         return calcs.Divide(a, b);
     }
 }
-var origin = casos.txtTest1;
-var operands = origin.match(PLANNER_INTS);
-console.log(operands);
+var origin = casos.txtTest4;
+var operands = origin.match(PLANNER_NUMS);
 var operator = origin.match(OP_SIGNALS);
-var values = plannerInts(operands.toString());
-console.log(values.reduce(function (a, b) { return operaIn(a, b); }));
+var values = extractNums(operands.toString());
+console.log(values.reduce(function (a, b) { return operatingIn(a, b); }));
